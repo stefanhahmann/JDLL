@@ -1096,6 +1096,10 @@ public class EngineManagement {
 			} catch (IOException | InterruptedException e) {
 				e.printStackTrace();
 			}
+			catch ( NullPointerException ignored )
+			{
+				// can ignored, the download is still
+			}
         });
 		trackerThread.start();
 		DownloadTracker.printProgress(downloadThread, consumer);
@@ -1225,7 +1229,7 @@ public class EngineManagement {
 		if (AvailableEngines.bioimageioToModelRunnerKeysMap().get(framework) != null)
 			framework = AvailableEngines.bioimageioToModelRunnerKeysMap().get(framework);
 		DeepLearningVersion engine = AvailableEngines.filterByEngineForOS(framework).getVersions()
-				.stream().filter(v -> (v.getPythonVersion() == version)
+				.stream().filter( v -> ( v.getPythonVersion().equals( version ) )
 					&& (v.getCPU() == cpu)
 					&& (v.getGPU() == gpu)).findFirst().orElse(null);
 		return installEngineInDir(engine, dir, consumer);
